@@ -1,0 +1,5 @@
+S,G,G,G,G
+G,G,G,G,G
+G,G,G,G,G
+G,G,G,G,G
+G,G,G,G,G
