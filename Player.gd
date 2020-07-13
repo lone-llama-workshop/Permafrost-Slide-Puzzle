@@ -10,10 +10,9 @@ func _ready() -> void:
 	print(grid.cell_size)
 	print(grid.world_to_map(position))
 	
-	position = grid.world_to_map(position) + (grid.cell_size / 2)
+	position = (grid.world_to_map(position) * grid.cell_size) + (grid.cell_size / 2)
 	print(position)
 	
-	print(grid.get_used_cells())
 	print(grid.get_cellv(grid.world_to_map(position)))
 
 func _input(event): 
