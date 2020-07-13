@@ -5,13 +5,6 @@ const GRID_SIZE: int = 64
 onready var grid: TileMap = get_parent()
 onready var ray_cast: RayCast2D =  $RayCast2D
 
-enum DIRECTIONS {
-	UP
-	DOWN
-	LEFT
-	RIGHT
-}
-
 
 func _ready() -> void:
 	print(grid.cell_size)
@@ -33,9 +26,10 @@ func _process(delta: float) -> void:
 	
 	ray_cast.cast_to = input_direction * grid.cell_size 
 	ray_cast.force_raycast_update()
-	if !ray_cast.is_colliding():
+	while !ray_cast.is_colliding():
 		grid.set_cellv(grid.world_to_map(position), 1) 
 		position += input_direction * grid.cell_size
+		ray_cast.force_raycast_update()
 
 
 func get_input_direction() -> Vector2:
