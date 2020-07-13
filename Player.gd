@@ -5,6 +5,13 @@ const GRID_SIZE: int = 64
 onready var grid: TileMap = get_parent()
 onready var ray_cast: RayCast2D =  $RayCast2D
 
+enum DIRECTIONS {
+	UP
+	DOWN
+	LEFT
+	RIGHT
+}
+
 
 func _ready() -> void:
 	print(grid.cell_size)
@@ -32,7 +39,21 @@ func _process(delta: float) -> void:
 
 
 func get_input_direction() -> Vector2:
-	return Vector2(
-		int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left")),
-		int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
+	var LEFT = Input.is_action_just_pressed("ui_left")
+	var RIGHT = Input.is_action_just_pressed("ui_right")
+	var UP = Input.is_action_just_pressed("ui_up")
+	var DOWN = Input.is_action_just_pressed("ui_down")
+	
+	var move_dir := Vector2(
+		int(RIGHT) - int(LEFT),
+		int(DOWN) - int(UP)
 	)
+	
+	if move_dir.x != 0 && move_dir.y != 0: # prevent diagonals
+		move_dir = Vector2.ZERO
+	
+	return move_dir
+
+
+func get_furthest_slide_position() -> Vector2:
+	return Vector2.ZERO
