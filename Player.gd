@@ -3,6 +3,7 @@ extends Area2D
 const GRID_SIZE: int = 64
 
 onready var grid: TileMap = get_parent()
+onready var ray_cast: RayCast2D =  $RayCast2D
 
 
 func _ready() -> void:
@@ -22,7 +23,12 @@ func _process(delta: float) -> void:
 		return
 		
 	print(input_direction)
-	position += grid.cell_size * input_direction
+	
+	ray_cast.cast_to = input_direction * grid.cell_size 
+	ray_cast.force_raycast_update()
+	if !ray_cast.is_colliding():
+		grid.set_cellv(grid.world_to_map(position), 1) 
+		position += input_direction * grid.cell_size
 
 
 func get_input_direction() -> Vector2:
