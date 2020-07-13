@@ -16,7 +16,12 @@ func _ready() -> void:
 	print(grid.get_used_cells())
 	print(grid.get_cellv(grid.world_to_map(position)))
 
+func _input(event): 
+	if Input.is_action_just_pressed("ui_reset"):
+		get_tree().reload_current_scene()
 
+
+# warning-ignore:unused_argument
 func _process(delta: float) -> void:
 	var input_direction = get_input_direction()
 	if not input_direction:
@@ -30,6 +35,8 @@ func _process(delta: float) -> void:
 		grid.set_cellv(grid.world_to_map(position), 1) 
 		position += input_direction * grid.cell_size
 		ray_cast.force_raycast_update()
+	
+	check_for_victory()
 
 
 func get_input_direction() -> Vector2:
@@ -49,5 +56,16 @@ func get_input_direction() -> Vector2:
 	return move_dir
 
 
-func get_furthest_slide_position() -> Vector2:
-	return Vector2.ZERO
+func check_for_victory() -> bool: 
+	var used_cells = grid.get_used_cells()
+	var grass_count = 0 
+	for cell in used_cells: 
+		if grid.get_cellv(cell) == 2:
+			grass_count += 1
+	if grass_count == 1:
+		print("Victory")
+		return true
+	else: 
+		print("Incomplete")
+		return false
+	
