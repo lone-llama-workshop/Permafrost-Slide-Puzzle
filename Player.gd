@@ -4,6 +4,7 @@ const GRID_SIZE: int = 64
 
 onready var grid: TileMap = get_parent()
 onready var ray_cast: RayCast2D =  $RayCast2D
+onready var level_manager: Node = get_parent().get_parent().get_node("LevelManager")
 
 
 func _ready() -> void:
@@ -35,7 +36,8 @@ func _process(delta: float) -> void:
 		position += input_direction * grid.cell_size
 		ray_cast.force_raycast_update()
 	
-	check_for_victory()
+	if check_for_victory():
+		level_manager.load_next_level()
 
 
 func get_input_direction() -> Vector2:
